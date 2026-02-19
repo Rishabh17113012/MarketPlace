@@ -16,24 +16,34 @@ export default function ProductCard({ product, index = 0 }: Props) {
   const { data: favorites } = useFavorites(user?.id);
   const toggleFavorite = useToggleFavorite();
 
-  const isFavorited = favorites?.some((f) => f.product_id === product.id) ?? false;
+  const isFavorited =
+    favorites?.some((f) => f.product_id === product.id) ?? false;
 
   const handleFavorite = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!user) return;
-    toggleFavorite.mutate({ userId: user.id, productId: product.id, isFavorited });
+    toggleFavorite.mutate({
+      userId: user.id,
+      productId: product.id,
+      isFavorited,
+    });
   };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.06,
+        ease: [0.16, 1, 0.3, 1],
+      }}
     >
       <Link to={`/product/${product.id}`} className="group block">
-        <div className="relative overflow-hidden rounded-2xl bg-card transition-all duration-500 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-1">
-          <div className="aspect-[4/3] overflow-hidden bg-muted">
+        <div className="glass-card rounded-2xl overflow-hidden">
+          
+          <div className="aspect-[4/3] overflow-hidden">
             <img
               src={product.image_url || "/placeholder.svg"}
               alt={product.title}
@@ -46,8 +56,12 @@ export default function ProductCard({ product, index = 0 }: Props) {
             <motion.button
               onClick={handleFavorite}
               whileTap={{ scale: 0.85 }}
-              className="absolute right-3 top-3 rounded-full bg-background/70 backdrop-blur-md p-2 transition-all duration-200 hover:bg-background shadow-sm"
-              aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+              className="absolute right-3 top-3 rounded-full bg-white/50 backdrop-blur-md p-2 transition-all duration-200 hover:bg-white/70 shadow-sm"
+              aria-label={
+                isFavorited
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
             >
               <Heart
                 className={cn(
@@ -62,7 +76,7 @@ export default function ProductCard({ product, index = 0 }: Props) {
 
           <div className="p-4">
             {product.category && (
-              <span className="inline-block rounded-full bg-muted px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <span className="inline-block rounded-full bg-white/40 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground backdrop-blur-sm">
                 {product.category}
               </span>
             )}
@@ -70,7 +84,10 @@ export default function ProductCard({ product, index = 0 }: Props) {
               {product.title}
             </h3>
             <p className="mt-1.5 text-base font-semibold text-foreground">
-              ₹{product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+              ₹
+              {product.price.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+              })}
             </p>
           </div>
         </div>
