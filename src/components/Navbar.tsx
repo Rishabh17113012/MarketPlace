@@ -16,129 +16,156 @@ export default function Navbar() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -10, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="sticky top-0 z-50 glass border-b border-border/60"
-      >
-        <div className="container mx-auto flex h-14 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-              <span className="text-primary-foreground text-xs font-bold">M</span>
-            </div>
-            <span className="font-display text-lg font-semibold tracking-tight">Marketplace</span>
-          </Link>
+      {/* Floating Wrapper */}
+      <div className="w-full flex justify-center pt-6 px-4">
+        <motion.header
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-6xl"
+        >
+          <div className="flex h-16 items-center justify-between rounded-2xl bg-white/70 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-white/40 px-6">
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 md:flex">
-            <Link
-              to="/"
-              className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200",
-                isActive("/")
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
-              )}
-            >
-              Products
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-105">
+                <span className="text-white text-sm font-semibold">M</span>
+              </div>
+              <span className="font-display text-lg font-semibold tracking-tight">
+                Marketplace
+              </span>
             </Link>
 
-            {user ? (
-              <>
-                <Link
-                  to="/favorites"
-                  className={cn(
-                    "rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 flex items-center gap-1.5",
-                    isActive("/favorites")
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                  )}
-                >
-                  <Heart className="h-3.5 w-3.5" />
-                  Favorites
-                </Link>
-                <div className="mx-2 h-5 w-px bg-border" />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={signOut}
-                  className="rounded-full text-muted-foreground hover:text-foreground"
-                >
-                  <LogOut className="mr-1.5 h-3.5 w-3.5" />
-                  Sign Out
-                </Button>
-              </>
-            ) : (
-              <>
-                <div className="mx-2 h-5 w-px bg-border" />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate("/auth")}
-                  className="rounded-full text-muted-foreground"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => navigate("/auth?tab=register")}
-                  className="rounded-full"
-                >
-                  Get Started
-                </Button>
-              </>
-            )}
-          </nav>
+            {/* Desktop Navigation */}
+            <nav className="hidden items-center gap-2 md:flex">
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex items-center justify-center h-9 w-9 rounded-full hover:bg-muted transition-colors md:hidden"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
-      </motion.header>
-
-      {/* Mobile menu overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed inset-x-0 top-14 z-40 glass border-b border-border/60 p-4 md:hidden"
-          >
-            <nav className="flex flex-col gap-1">
               <Link
                 to="/"
-                onClick={() => setMobileOpen(false)}
                 className={cn(
-                  "rounded-xl px-4 py-3 text-sm font-medium transition-colors",
-                  isActive("/") ? "bg-primary text-primary-foreground" : "hover:bg-muted"
+                  "rounded-full px-5 py-2 text-sm font-medium transition-all duration-200",
+                  isActive("/")
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
+                    : "text-muted-foreground hover:text-foreground hover:bg-white/60"
                 )}
               >
                 Products
               </Link>
+
+              {user ? (
+                <>
+                  <Link
+                    to="/favorites"
+                    className={cn(
+                      "rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 flex items-center gap-2",
+                      isActive("/favorites")
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/60"
+                    )}
+                  >
+                    <Heart className="h-4 w-4" />
+                    Favorites
+                  </Link>
+
+                  <div className="mx-2 h-6 w-px bg-white/40" />
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={signOut}
+                    className="rounded-full text-muted-foreground hover:text-foreground hover:bg-white/60"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div className="mx-2 h-6 w-px bg-white/40" />
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigate("/auth")}
+                    className="rounded-full text-muted-foreground hover:text-foreground hover:bg-white/60"
+                  >
+                    Sign In
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    onClick={() => navigate("/auth?tab=register")}
+                    className="rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 shadow-md"
+                  >
+                    Get Started
+                  </Button>
+                </>
+              )}
+            </nav>
+
+            {/* Mobile Toggle */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-white/60 transition-colors md:hidden"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+
+          </div>
+        </motion.header>
+      </div>
+
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-x-4 top-28 z-40 rounded-2xl bg-white/80 backdrop-blur-xl shadow-2xl border border-white/40 p-5 md:hidden"
+          >
+            <nav className="flex flex-col gap-3">
+
+              <Link
+                to="/"
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "rounded-xl px-4 py-3 text-sm font-medium transition-all",
+                  isActive("/")
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                    : "hover:bg-white/60"
+                )}
+              >
+                Products
+              </Link>
+
               {user ? (
                 <>
                   <Link
                     to="/favorites"
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "rounded-xl px-4 py-3 text-sm font-medium transition-colors flex items-center gap-2",
-                      isActive("/favorites") ? "bg-primary text-primary-foreground" : "hover:bg-muted"
+                      "rounded-xl px-4 py-3 text-sm font-medium transition-all flex items-center gap-2",
+                      isActive("/favorites")
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
+                        : "hover:bg-white/60"
                     )}
                   >
                     <Heart className="h-4 w-4" />
                     Favorites
                   </Link>
+
                   <button
-                    onClick={() => { signOut(); setMobileOpen(false); }}
-                    className="rounded-xl px-4 py-3 text-sm font-medium text-left hover:bg-muted flex items-center gap-2 text-muted-foreground"
+                    onClick={() => {
+                      signOut();
+                      setMobileOpen(false);
+                    }}
+                    className="rounded-xl px-4 py-3 text-sm font-medium text-left hover:bg-white/60 flex items-center gap-2 text-muted-foreground"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign Out
@@ -149,14 +176,15 @@ export default function Navbar() {
                   <Link
                     to="/auth"
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-4 py-3 text-sm font-medium hover:bg-muted"
+                    className="rounded-xl px-4 py-3 text-sm font-medium hover:bg-white/60"
                   >
                     Sign In
                   </Link>
+
                   <Link
                     to="/auth?tab=register"
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-xl px-4 py-3 text-sm font-medium bg-primary text-primary-foreground text-center"
+                    className="rounded-xl px-4 py-3 text-sm font-medium bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-center"
                   >
                     Get Started
                   </Link>

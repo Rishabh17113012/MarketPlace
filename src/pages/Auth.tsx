@@ -9,7 +9,9 @@ import { toast } from "sonner";
 
 export default function AuthPage() {
   const [searchParams] = useSearchParams();
-  const [isRegister, setIsRegister] = useState(searchParams.get("tab") === "register");
+  const [isRegister, setIsRegister] = useState(
+    searchParams.get("tab") === "register"
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -27,7 +29,9 @@ export default function AuthPage() {
     try {
       if (isRegister) {
         await signUp(email, password, fullName);
-        toast.success("Account created! Please check your email and click on the verification link to complete your registration.");
+        toast.success(
+          "Account created! Please verify your email before signing in."
+        );
       } else {
         await signIn(email, password);
         toast.success("Welcome back!");
@@ -41,50 +45,72 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
+    <div className="relative flex min-h-screen items-center justify-center px-4 overflow-hidden">
+
+      {/* Ambient background glow */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-purple-100 via-indigo-100 to-white" />
+      <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-purple-300/30 blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-indigo-300/30 blur-3xl" />
+
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-sm"
+        className="w-full max-w-md rounded-3xl bg-white/70 backdrop-blur-xl p-8 shadow-2xl border border-white/40"
       >
+        {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary">
-            <span className="text-primary-foreground text-lg font-bold">M</span>
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg">
+            <span className="text-white text-lg font-semibold">M</span>
           </div>
-          <h1 className="font-display text-2xl font-bold tracking-tight">
-            {isRegister ? "Create Account" : "Welcome Back"}
+
+          <h1 className="font-display text-2xl font-semibold tracking-tight">
+            {isRegister ? "Create your account" : "Welcome back"}
           </h1>
+
           <p className="mt-2 text-sm text-muted-foreground">
-            {isRegister ? "Join our marketplace today" : "Sign in to continue"}
+            {isRegister
+              ? "Start exploring the marketplace"
+              : "Sign in to continue"}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
           <AnimatePresence mode="wait">
             {isRegister && (
               <motion.div
                 key="name"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.2 }}
               >
-                <Label htmlFor="fullName" className="text-xs font-medium text-muted-foreground">Full Name</Label>
+                <Label
+                  htmlFor="fullName"
+                  className="text-xs font-medium text-muted-foreground"
+                >
+                  Full Name
+                </Label>
                 <Input
                   id="fullName"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  placeholder="Your name"
+                  placeholder="John Doe"
                   required
-                  className="mt-1.5 h-11 rounded-xl"
+                  className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
                 />
               </motion.div>
             )}
           </AnimatePresence>
 
           <div>
-            <Label htmlFor="email" className="text-xs font-medium text-muted-foreground">Email</Label>
+            <Label
+              htmlFor="email"
+              className="text-xs font-medium text-muted-foreground"
+            >
+              Email
+            </Label>
             <Input
               id="email"
               type="email"
@@ -92,12 +118,17 @@ export default function AuthPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               required
-              className="mt-1.5 h-11 rounded-xl"
+              className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
             />
           </div>
 
           <div>
-            <Label htmlFor="password" className="text-xs font-medium text-muted-foreground">Password</Label>
+            <Label
+              htmlFor="password"
+              className="text-xs font-medium text-muted-foreground"
+            >
+              Password
+            </Label>
             <Input
               id="password"
               type="password"
@@ -106,17 +137,28 @@ export default function AuthPage() {
               placeholder="••••••••"
               required
               minLength={6}
-              className="mt-1.5 h-11 rounded-xl"
+              className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
             />
           </div>
 
-          <Button type="submit" className="w-full h-11 rounded-xl font-medium" disabled={loading}>
-            {loading ? "Loading..." : isRegister ? "Create Account" : "Sign In"}
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full h-11 rounded-xl font-medium bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-all shadow-lg"
+          >
+            {loading
+              ? "Loading..."
+              : isRegister
+              ? "Create Account"
+              : "Sign In"}
           </Button>
         </form>
 
+        {/* Switch Mode */}
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
+          {isRegister
+            ? "Already have an account?"
+            : "Don't have an account?"}{" "}
           <button
             onClick={() => setIsRegister(!isRegister)}
             className="font-medium text-foreground underline-offset-4 hover:underline"
