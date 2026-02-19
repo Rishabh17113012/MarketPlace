@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
 
     // Alert user after successful signup
-    alert("You are now authenticated. Please log in again with your password.");
+    alert("Authentication mail has been sent on your provided mail.Please check it and verify your identity and log in again with your password");
 
     // Redirect user to login page
     window.location.href = "/auth"; // Update this path if your login page is different
