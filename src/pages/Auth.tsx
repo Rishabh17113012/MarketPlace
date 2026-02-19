@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,10 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsRegister(searchParams.get("tab") === "register");
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,11 +124,6 @@ export default function AuthPage() {
             {isRegister ? "Sign In" : "Register"}
           </button>
         </p>
-
-        <div className="mt-5 rounded-xl border border-border bg-muted/50 p-3 text-center text-xs text-muted-foreground">
-          <strong>Test credentials:</strong><br />
-          test@example.com / password123
-        </div>
       </motion.div>
     </div>
   );

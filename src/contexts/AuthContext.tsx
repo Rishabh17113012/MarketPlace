@@ -18,14 +18,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-
-      // Handle email verification callback
-      if (event === "SIGNED_IN" && session?.user?.email_confirmed_at) {
-        alert("Your email has been verified. Please log in again with your password.");
-        window.location.href = "/auth"; // Redirect to login page
-      }
+        setUser(session?.user ?? null);
+        setLoading(false);
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
