@@ -20,6 +20,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
+
+      // Handle email verification callback
+      if (event === "SIGNED_IN" && session?.user?.email_confirmed_at) {
+        alert("Your email has been verified. Please log in again with your password.");
+        window.location.href = "/auth"; // Redirect to login page
+      }
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -37,6 +43,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       options: { data: { full_name: fullName } },
     });
     if (error) throw error;
+
+    // Alert user after successful signup
+    alert("You are now authenticated. Please log in again with your password.");
+
+    // Redirect user to login page
+    window.location.href = "/auth"; // Update this path if your login page is different
   };
 
   const signIn = async (email: string, password: string) => {
