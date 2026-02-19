@@ -76,83 +76,109 @@ export default function AuthPage() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <AnimatePresence mode="wait">
-            {isRegister && (
-              <motion.div
-                key="name"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Label
-                  htmlFor="fullName"
-                  className="text-xs font-medium text-muted-foreground"
-                >
-                  Full Name
-                </Label>
-                <Input
-                  id="fullName"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  placeholder="John Doe"
-                  required
-                  className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+        {/* Form */}
+<form onSubmit={handleSubmit} className="space-y-5">
+  <AnimatePresence mode="wait">
+    {isRegister && (
+      <motion.div
+        key="name"
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -5 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Label
+          htmlFor="fullName"
+          className="text-xs font-medium text-muted-foreground"
+        >
+          Full Name
+        </Label>
+        <Input
+          id="fullName"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="John Doe"
+          required
+          className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
+        />
+      </motion.div>
+    )}
+  </AnimatePresence>
 
-          <div>
-            <Label
-              htmlFor="email"
-              className="text-xs font-medium text-muted-foreground"
-            >
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
-            />
-          </div>
+  <div>
+    <Label
+      htmlFor="email"
+      className="text-xs font-medium text-muted-foreground"
+    >
+      Email
+    </Label>
+    <Input
+      id="email"
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      placeholder="you@example.com"
+      required
+      className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
+    />
+  </div>
 
-          <div>
-            <Label
-              htmlFor="password"
-              className="text-xs font-medium text-muted-foreground"
-            >
-              Password
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              minLength={6}
-              className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
-            />
-          </div>
+  <div>
+    <Label
+      htmlFor="password"
+      className="text-xs font-medium text-muted-foreground"
+    >
+      Password
+    </Label>
+    <Input
+      id="password"
+      type="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      placeholder="••••••••"
+      required
+      minLength={6}
+      className="mt-2 h-11 rounded-xl bg-white/70 backdrop-blur-sm"
+    />
+  </div>
 
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full h-11 rounded-xl font-medium bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-all shadow-lg"
-          >
-            {loading
-              ? "Loading..."
-              : isRegister
-              ? "Create Account"
-              : "Sign In"}
-          </Button>
-        </form>
+  <Button
+    type="submit"
+    disabled={loading}
+    className="w-full h-11 rounded-xl font-medium bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-all shadow-lg"
+  >
+    {loading
+      ? "Loading..."
+      : isRegister
+      ? "Create Account"
+      : "Sign In"}
+  </Button>
+
+  {/* Demo Credentials Box (Sign In Only) */}
+  {!isRegister && (
+    <div className="mt-4 rounded-xl border border-dashed border-indigo-300 bg-indigo-50/40 p-4 text-sm">
+      <p className="font-medium text-indigo-700 mb-1">Demo Account</p>
+      <p className="text-muted-foreground">
+        Email: <span className="font-medium">testuser@example.com</span>
+      </p>
+      <p className="text-muted-foreground">
+        Password: <span className="font-medium">Test@1234</span>
+      </p>
+
+      <button
+        type="button"
+        onClick={() => {
+          setEmail("testuser@example.com");
+          setPassword("Test@1234");
+        }}
+        className="mt-3 text-xs font-medium text-indigo-600 hover:underline"
+      >
+        Use Demo Account
+      </button>
+    </div>
+  )}
+</form>
+
 
         {/* Switch Mode */}
         <p className="mt-6 text-center text-sm text-muted-foreground">
